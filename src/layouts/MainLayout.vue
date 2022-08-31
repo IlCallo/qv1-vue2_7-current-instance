@@ -11,9 +11,7 @@
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
 
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
+        <q-toolbar-title> Quasar App </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
@@ -26,17 +24,9 @@
       content-class="bg-grey-1"
     >
       <q-list>
-        <q-item-label
-          header
-          class="text-grey-8"
-        >
+        <q-item-label header class="text-grey-8">
           Essential Links
         </q-item-label>
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
       </q-list>
     </q-drawer>
 
@@ -47,63 +37,29 @@
 </template>
 
 <script>
-import EssentialLink from 'components/EssentialLink.vue'
+import { defineComponent, getCurrentInstance, ref } from "vue";
+import { useRoute } from "vue-router/composables";
 
-const linksData = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-]
+export default defineComponent({
+  name: "MainLayout",
+  setup() {
+    const leftDrawerOpen = ref(false);
 
-export default {
-  name: 'MainLayout',
-  components: {
-    EssentialLink
+    // `getCurrentInstance` here into dev code works
+    console.log(getCurrentInstance().proxy.$root.$route);
+
+    // `getCurrentInstance` in the guard function returns `null`, resulting in an error
+    // https://github.com/vuejs/vue-router/blob/ede092d031bf9144433b600b8cce61143cec3c6c/composables.mjs#L11
+    const route = useRoute();
+    console.log(route);
+
+    // The same goes for vue-apollo-composable when used
+    // https://github.com/vuejs/apollo/blob/6c07a47d33e6a59643a3a4f743e8fa43e435abf4/packages/vue-apollo-composable/src/useApolloClient.ts#L38
+
+    // The following method defined into Vue core correctly return the current instance, so the problem doesn't seem to be there
+    // https://github.com/vuejs/vue/blob/ee57d9fd1d51abe245c6c37e6f8f2d45977b929e/src/v3/currentInstance.ts#L12
+
+    return { leftDrawerOpen };
   },
-  data () {
-    return {
-      leftDrawerOpen: false,
-      essentialLinks: linksData
-    }
-  }
-}
+});
 </script>

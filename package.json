@@ -23,6 +23,9 @@
     "prettier": "^2.5.1",
     "@quasar/app": "^2.0.0"
   },
+  "resolutions": {
+    "vue-router": "3.6.4"
+  },
   "browserslist": [
     "last 10 Chrome versions",
     "last 10 Firefox versions",
